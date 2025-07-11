@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import HeaderBanner from './HeaderBanner';
-import YearMonthFilter from './YearMonthFilter';
+import YearMonthPopupFilter from './YearMonthPopupFilter';
 import KPIBox from './KPIBox';
 import WeeklyTrend from './WeeklyTrend';
 import { FaUserFriends, FaCarSide, FaBus, FaPercentage } from 'react-icons/fa';
@@ -42,31 +42,30 @@ const KPIDashboard: React.FC = () => {
               </svg>
             </div>
 
-            {/* Filter Controls */}
+             {/* Popup Filter Controls */}
             {showFilters && (
               <div className="px-4 py-4 border-t bg-gradient-to-r from-purple-50 via-pink-50 to-yellow-50 shadow-md rounded-b-lg flex flex-wrap justify-between gap-6">
-                {/* Shift Timings */}
+                {/* Shift */}
                 <div className="flex flex-col text-sm w-full md:w-[30%]">
                   <label className="mb-1 font-medium text-gray-600">Shift Timings</label>
                   <select
-                    className="border rounded p-2 text-sm bg-white"
                     value={shift}
                     onChange={e => setShift(e.target.value)}
+                    className="border rounded p-2 bg-white text-sm"
                   >
-                    <option>Morning</option>
-                    <option>General</option>
-                    <option>Midday</option>
-                    <option>Night</option>
+                    {['Morning','General','Midday','Night'].map(s => (
+                      <option key={s}>{s}</option>
+                    ))}
                   </select>
                 </div>
 
-                {/* Month & Year */}
+                {/* Month & Year Popup */}
                 <div className="flex flex-col items-center text-sm w-full md:w-[30%]">
-                  <label className="mb-1 font-medium text-gray-600"> Month & Year</label>
-                  <YearMonthFilter
+                  <label className="mb-1 font-medium text-gray-600">Select Month & Year</label>
+                  <YearMonthPopupFilter
                     year={year}
                     month={month}
-                    onChange={(y, m) => { setYear(y); setMonth(m); }}
+                    onChange={(y,m) => { setYear(y); setMonth(m); }}
                     range={{ past: 10, future: 2 }}
                   />
                 </div>
@@ -75,9 +74,9 @@ const KPIDashboard: React.FC = () => {
                 <div className="flex flex-col text-sm w-full md:w-[30%]">
                   <label className="mb-1 font-medium text-gray-600">Event Type</label>
                   <select
-                    className="border rounded p-2 text-sm bg-white"
                     value={eventType}
                     onChange={e => setEventType(e.target.value)}
+                    className="border rounded p-2 bg-white text-sm"
                   >
                     <option>Login</option>
                     <option>Logout</option>
