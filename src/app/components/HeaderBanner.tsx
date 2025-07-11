@@ -4,7 +4,7 @@ const HeaderBanner: React.FC = () => {
   return (
     <header className="bg-gradient-to-r from-sky-400 to-cyan-300 text-white shadow-md">
       <div className="max-w-7xl mx-auto px-4 py-6 text-center">
-        <h1 className="text-3xl font-bold">Cab Allocation Forecasting</h1>
+        <h1 className="text-3xl font-bold">Cab Demand Forecasting</h1>
         <p className="mt-1 text-sm">
           Quickly visualize your historical data and forecast future needs.
         </p>
