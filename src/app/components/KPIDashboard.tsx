@@ -3,6 +3,7 @@ import HeaderBanner from './HeaderBanner';
 import YearMonthPopupFilter from './YearMonthPopupFilter';
 import KPIBox from './KPIBox';
 import WeeklyTrend from './WeeklyTrend';
+import MapSection from './MapSection';
 import { FaUserFriends, FaCarSide, FaBus, FaPercentage } from 'react-icons/fa';
 
 const monthNames = [
@@ -11,9 +12,16 @@ const monthNames = [
 ];
 
 const KPIDashboard: React.FC = () => {
+  const now = new Date();
+  const currentYear = now.getFullYear();
+  const currentMonth = now.getMonth() + 1;
+  const defaultMonth = currentMonth > 1 ? currentMonth - 1 : 12;
+
   const [showFilters, setShowFilters] = useState(false);
-  const [year, setYear]     = useState(new Date().getFullYear());
-  const [month, setMonth]   = useState(new Date().getMonth() + 1);
+  // const [year, setYear]     = useState(new Date().getFullYear());
+  // const [month, setMonth]   = useState(new Date().getMonth() + 1);
+  const [year, setYear] = useState(currentYear);
+  const [month, setMonth] = useState(defaultMonth);
   const [shift, setShift]   = useState('Morning');
   const [eventType, setEventType] = useState('Login');
 
@@ -105,7 +113,8 @@ const KPIDashboard: React.FC = () => {
             ))}
           </div>
         </div>
-
+            {/* Forecast & Map Section */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
         {/* Forecast Section */}
         <div className="rounded-lg p-6 bg-gradient-to-r from-red-50 to-pink-50 shadow">
           <h2 className="text-xl font-semibold text-red-600 text-center mb-4">
@@ -122,6 +131,11 @@ const KPIDashboard: React.FC = () => {
             {[1,2,3,4].map(w => (
               <WeeklyTrend key={w} week={`Week ${w}`} color="red" />
             ))}
+          </div>
+        </div>
+        {/* Map */}
+        <div className="rounded-lg p-6 bg-gradient-to-r from-red-50 to-pink-50 shadow flex">
+          <MapSection />
           </div>
         </div>
       </div>
