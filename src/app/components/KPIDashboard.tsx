@@ -11,49 +11,80 @@ const monthNames = [
 ];
 
 const KPIDashboard: React.FC = () => {
-  const [year, setYear] = useState(new Date().getFullYear());
-  const [month, setMonth] = useState(new Date().getMonth() + 1);
+  const [showFilters, setShowFilters] = useState(false);
+  const [year, setYear]     = useState(new Date().getFullYear());
+  const [month, setMonth]   = useState(new Date().getMonth() + 1);
+  const [shift, setShift]   = useState('Morning');
+  const [eventType, setEventType] = useState('Login');
 
   return (
     <div className="bg-gray-50 min-h-screen">
-      {/* Gradient Header */}
       <HeaderBanner />
 
-      {/* Page Content */}
       <div className="max-w-7xl mx-auto px-4 py-8 space-y-10">
-        {/* Filters Panel */}
-        <div className="rounded-md p-4 bg-gradient-to-r from-purple-50 via-pink-50 to-yellow-50 shadow-sm">
-          <div className="flex flex-wrap items-end justify-between gap-6">
-            {/* Shift Timings */}
-            <div className="flex flex-col text-sm w-full md:w-[30%]">
-              <label className="mb-1 font-medium text-gray-600">Shift Timings</label>
-              <select className="border border-gray-300 rounded-md p-2 text-sm bg-white">
-                <option>Morning</option>
-                <option>General</option>
-                <option>Midday</option>
-                <option>Night</option>
-              </select>
+        {/* Filter Root */}
+        <div className="w-full">
+          <div className="border rounded-md shadow-sm bg-white">
+            {/* Toggle Header */}
+            <div
+              className="flex justify-between items-center px-4 py-2 cursor-pointer"
+              onClick={() => setShowFilters(prev => !prev)}
+            >
+              <span className="font-medium text-gray-700">Filter</span>
+              <svg
+                className={`w-4 h-4 text-gray-500 transform transition-transform duration-200 ${
+                  showFilters ? 'rotate-180' : 'rotate-0'
+                }`}
+                fill="none" stroke="currentColor" viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                  d="M19 9l-7 7-7-7" />
+              </svg>
             </div>
 
-            {/* Month & Year */}
-            <div className="flex flex-col">
-              <label className="text-sm font-medium text-gray-700 mb-1">Select Month & Year</label>
-              <YearMonthFilter
-                year={year}
-                month={month}
-                onChange={(y, m) => { setYear(y); setMonth(m); }}
-                range={{ past: 5, future: 2 }}
-              />
-            </div>
+            {/* Filter Controls */}
+            {showFilters && (
+              <div className="px-4 py-4 border-t bg-gradient-to-r from-purple-50 via-pink-50 to-yellow-50 shadow-md rounded-b-lg flex flex-wrap justify-between gap-6">
+                {/* Shift Timings */}
+                <div className="flex flex-col text-sm w-full md:w-[30%]">
+                  <label className="mb-1 font-medium text-gray-600">Shift Timings</label>
+                  <select
+                    className="border rounded p-2 text-sm bg-white"
+                    value={shift}
+                    onChange={e => setShift(e.target.value)}
+                  >
+                    <option>Morning</option>
+                    <option>General</option>
+                    <option>Midday</option>
+                    <option>Night</option>
+                  </select>
+                </div>
 
-            {/* Event Type */}
-            <div className="flex flex-col text-sm w-full md:w-[30%]">
-              <label className="mb-1 font-medium text-gray-600">Event Type</label>
-              <select className="border border-gray-300 rounded-md p-2 text-sm bg-white">
-                <option>Login</option>
-                <option>Logout</option>
-              </select>
-            </div>
+                {/* Month & Year */}
+                <div className="flex flex-col items-center text-sm w-full md:w-[30%]">
+                  <label className="mb-1 font-medium text-gray-600"> Month & Year</label>
+                  <YearMonthFilter
+                    year={year}
+                    month={month}
+                    onChange={(y, m) => { setYear(y); setMonth(m); }}
+                    range={{ past: 10, future: 2 }}
+                  />
+                </div>
+
+                {/* Event Type */}
+                <div className="flex flex-col text-sm w-full md:w-[30%]">
+                  <label className="mb-1 font-medium text-gray-600">Event Type</label>
+                  <select
+                    className="border rounded p-2 text-sm bg-white"
+                    value={eventType}
+                    onChange={e => setEventType(e.target.value)}
+                  >
+                    <option>Login</option>
+                    <option>Logout</option>
+                  </select>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
