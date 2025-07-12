@@ -1,35 +1,40 @@
-import React from 'react';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
+import React, { useEffect, useState } from "react";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
 
-// Optionally, fix default icon paths for Leaflet
-import L from 'leaflet';
-delete (L.Icon.Default.prototype as any)._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
-  iconUrl: require('leaflet/dist/images/marker-icon.png'),
-  shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
-});
+interface MapSectionProps {
+  shift: string;
+  year: number;
+  weeks: number[];
+  eventType: string;
+}
 
-const MapSection: React.FC = () => {
-  // Example marker location; replace with real data as needed
-  const center: [number, number] = [20, 0];
+const MapSection: React.FC<MapSectionProps> = ({ shift, year, weeks, eventType }) => {
+  const [markers, setMarkers] = useState<[number, number][]>([]);
+
+  useEffect(() => {
+    // dummy data: replace with your fetch logic
+    const newMarkers: [number, number][] = weeks.map((w, i) => [20 + i*2, i*2]);
+    setMarkers(newMarkers);
+  }, [shift, year, weeks, eventType]);
 
   return (
-    <div className="h-96 w-full rounded-lg shadow bg-white overflow-hidden">
-      <MapContainer
-        center={center}
-        zoom={2}
-        scrollWheelZoom={false}
-        className="h-full w-full"
-      >
+    <div className="h-96 w-full rounded-lg shadow-md bg-white overflow-hidden">
+      <MapContainer center={[20, 0]} zoom={2} scrollWheelZoom={false} className="h-full w-full">
         <TileLayer
-          attribution='&copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
+          attribution='&copy; OpenStreetMap'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <Marker position={center}>
-          <Popup>Global Center</Popup>
-        </Marker>
+        {markers.map((pos, idx) => (
+          <Marker position={pos} key={idx}>
+            <Popup>
+              Shift: {shift}<br/>
+              Year: {year}<br/>
+              Weeks: {weeks.join(", ")}<br/>
+              Event: {eventType}
+            </Popup>
+          </Marker>
+        ))}
       </MapContainer>
     </div>
   );
