@@ -79,7 +79,10 @@ const KPIDashboard: React.FC = () => {
       const labels = Array.from({ length: 7 }, (_, i) => {
         const d = new Date(mon);
         d.setDate(d.getDate() + i);
-        return d.toLocaleDateString(undefined, { weekday: "short" });
+        const day = d.toLocaleDateString(undefined, { weekday: "short" });
+        const month = d.toLocaleDateString(undefined, { month: "short" });
+        const date = d.getDate();           // numeric day
+        return `${day} ${month} ${date}`;   // e.g. "Mon Jul 29"
       });
       const values = labels.map(() => Math.floor(Math.random() * 10));
       return (
